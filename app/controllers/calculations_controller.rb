@@ -13,14 +13,15 @@ class CalculationsController < ApplicationController
         # The special word the user input is in the string @special_word.
         # ========================================================
 
-        @word_count = "Replace this string with your answer"
 
-        @character_count_with_spaces = "Replace this string with your answer"
 
-        @character_count_without_spaces = "Replace this string with your answer"
+        @word_count = @text.split.size
 
-        @occurrences = "Replace this string with your answer"
-        render 'word_count'
+        @character_count_with_spaces = @text.size
+
+        @character_count_without_spaces = @text.gsub(/\s+/, "").size
+
+        @occurrences = @text.split.count(@special_word)
     end
 
     def loan_payment_form
@@ -42,7 +43,7 @@ class CalculationsController < ApplicationController
         rate_per_period = @apr / 100 / 12
         number_periods = @years * 12
 
-        @monthly_payment = "Replace this string with your answer"
+        @monthly_payment = (present_value * rate_per_period) / 1 - (1+@arp)**(-number_periods)
     end
 
     def time_between_form
@@ -60,14 +61,16 @@ class CalculationsController < ApplicationController
         # The number of years the user input is in the integer @years.
         # The principal value the user input is in the decimal @principal.
         # =====================================================
+        # raise @starting.inspect
 
-        @seconds = "Replace this string with your answer"
-        @minutes = "Replace this string with your answer"
-        @hours = "Replace this string with your answer"
-        @days = "Replace this string with your answer"
-        @weeks = "Replace this string with your answer"
-        @months = "Replace this string with your answer"
-        @years = "Replace this string with your answer"
+
+        @seconds = @ending - @starting
+        @minutes = @seconds / 1.minutes
+        @hours = @minutes / 60
+        @days = @hours / 24
+        @weeks = @days / 7
+        @months = @seconds / 1.months
+        @years = @months / 12
         render 'time_between'
     end
 
